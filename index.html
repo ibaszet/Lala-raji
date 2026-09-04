@@ -69,7 +69,8 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 }
 .nav.scrolled{background:rgba(251,243,236,.94);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:14px 0;}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;}
-.nav-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;letter-spacing:.02em;color:var(--black);}
+.nav-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;letter-spacing:.02em;color:var(--black);display:flex;align-items:center;gap:10px;}
+.nav-logo img{height:38px;width:auto;display:block;}
 .nav-logo span{color:var(--emerald);}
 .nav-links{display:flex;gap:22px;}
 .nav-links a{
@@ -240,6 +241,12 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 .gallery-grid img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1);}
 .gallery-grid a:hover img{transform:scale(1.06);}
 .g-main{grid-row:span 2;}
+.gallery-more{text-align:center;margin-top:26px;}
+.gallery-more a{
+  display:inline-block;font-size:12.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+  color:var(--gold-soft);border-bottom:1px solid rgba(199,168,118,.4);padding-bottom:4px;transition:.3s;
+}
+.gallery-more a:hover{color:var(--white);border-color:var(--white);}
 @media (max-width:900px){
   .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,170px);}
   .g-main{grid-column:span 2;grid-row:auto;height:260px;}
@@ -351,7 +358,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 <!-- ============ NAV ============ -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
-    <a href="#top" class="nav-logo">Lala <span>Raji</span></a>
+    <a href="#top" class="nav-logo"><img src="logo.jpg" alt="Logo Lala Raji"> Lala <span>Raji</span></a>
     <div class="nav-links">
       <a href="#about">L'institut</a>
       <a href="#services">Services</a>
@@ -419,7 +426,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
       <p>De l'épilation aux soins capillaires, en passant par les massages et l'extension de cils, nous mettons notre expertise au service de votre bien-être — à chaque visite.</p>
     </div>
     <div class="about-card reveal reveal-delay-1">
-      <div class="about-photo"><img src="img5.jpg" alt="Yasmine, fondatrice Lala Raji"></div>
+      <div class="about-photo"><img src="img5.jpg" alt="Lala Raji, institut by Yasmine"></div>
       <h3>Yasmine</h3>
       <div class="role">Fondatrice &amp; Experte Beauté</div>
       <div class="divider"></div>
@@ -597,6 +604,22 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
       <a href="img4.jpg" target="_blank" rel="noopener"><img src="img4.jpg" loading="lazy" alt="Cabine soin"></a>
       <a href="img5.jpg" target="_blank" rel="noopener"><img src="img5.jpg" loading="lazy" alt="Réalisation Lala Raji"></a>
     </div>
+    <div class="gallery-more"><a href="#gallery-full" id="galleryMoreLink">Voir toute la galerie (17 photos)</a></div>
+
+    <div class="gallery-grid" id="gallery-full" style="display:none;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;margin-top:14px;">
+      <a href="img6.jpg" target="_blank" rel="noopener"><img src="img6.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img7.jpg" target="_blank" rel="noopener"><img src="img7.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img8.jpg" target="_blank" rel="noopener"><img src="img8.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img9.jpg" target="_blank" rel="noopener"><img src="img9.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img10.jpg" target="_blank" rel="noopener"><img src="img10.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img11.jpg" target="_blank" rel="noopener"><img src="img11.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img12.jpg" target="_blank" rel="noopener"><img src="img12.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img13.jpg" target="_blank" rel="noopener"><img src="img13.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img14.jpg" target="_blank" rel="noopener"><img src="img14.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img15.jpg" target="_blank" rel="noopener"><img src="img15.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img16.jpg" target="_blank" rel="noopener"><img src="img16.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+      <a href="img17.jpg" target="_blank" rel="noopener"><img src="img17.jpg" loading="lazy" alt="Lala Raji — réalisation"></a>
+    </div>
   </div>
 </section>
 
@@ -752,6 +775,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="container">
+    <img src="logo.jpg" alt="Logo Lala Raji" style="height:64px;width:auto;margin:0 auto 14px;display:block;">
     <div class="footer-logo">Lala <span>Raji</span></div>
     <p>Résidence Chaabani, Val d'Hydra, Alger — +213 540 83 79 16</p>
     <p class="made">&copy; <span id="year"></span> Lala Raji Institut de Beauté. Tous droits réservés.</p>
@@ -832,6 +856,15 @@ const statIO = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 statEls.forEach(el => statIO.observe(el));
+
+/* ============ GALLERY TOGGLE ============ */
+document.getElementById('galleryMoreLink').addEventListener('click', function(e){
+  e.preventDefault();
+  const full = document.getElementById('gallery-full');
+  const isHidden = full.style.display === 'none';
+  full.style.display = isHidden ? 'grid' : 'none';
+  this.textContent = isHidden ? 'Voir moins de photos' : 'Voir toute la galerie (17 photos)';
+});
 
 /* ============ TARIFS — RECHERCHE ============ */
 const tarifSearch = document.getElementById('tarifSearch');
