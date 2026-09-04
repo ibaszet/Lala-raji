@@ -204,6 +204,42 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 @media (max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:600px){.services-grid{grid-template-columns:1fr;}}
 
+/* ============ CERTIFICATIONS ============ */
+.certifs{background:var(--cream-deep);}
+.certifs-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;}
+.certif-item{
+  background:var(--white);border:1px solid var(--line);padding:14px;box-shadow:var(--shadow);
+  transition:.3s ease;
+}
+.certif-item:hover{transform:translateY(-4px);}
+.certif-item img{width:100%;height:auto;display:block;}
+@media (max-width:700px){.certifs-grid{grid-template-columns:1fr;}}
+
+/* ============ PRIVATISATION ============ */
+.privatise{
+  background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+  padding:64px 0;position:relative;overflow:hidden;
+}
+.privatise::before{
+  content:'';position:absolute;top:-40%;right:-10%;width:420px;height:420px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+}
+.privatise::after{
+  content:'';position:absolute;bottom:-30%;left:-8%;width:300px;height:300px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.08);
+}
+.privatise-inner{position:relative;z-index:1;max-width:760px;margin:0 auto;text-align:center;}
+.privatise .eyebrow{color:var(--gold-soft);}
+.privatise h2{color:var(--white);font-size:clamp(28px,3.6vw,40px);margin:14px 0 18px;}
+.privatise h2 span{color:var(--gold-soft);}
+.privatise p{color:rgba(255,255,255,.85);font-size:15px;line-height:1.8;font-weight:300;max-width:560px;margin:0 auto 12px;}
+.privatise .details{
+  display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin:28px 0 32px;
+}
+.privatise .detail{text-align:center;}
+.privatise .detail b{display:block;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gold-soft);}
+.privatise .detail span{font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6);}
+
 /* ============ TARIFS — SEARCHABLE PRICE TABLE ============ */
 .tarif-search-wrap{max-width:440px;margin:0 auto 48px;position:relative;}
 .tarif-search-wrap svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#8b8271;pointer-events:none;}
@@ -362,6 +398,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
     <div class="nav-links">
       <a href="#about">L'institut</a>
       <a href="#services">Services</a>
+      <a href="#privatisation">Privatisation</a>
       <a href="#tarifs">Tarifs</a>
       <a href="#gallery">Galerie</a>
       <a href="#booking">Réserver</a>
@@ -377,6 +414,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
   <button class="nav-mobile-close" id="navMobileClose" aria-label="Fermer">&times;</button>
   <a href="#about">L'institut</a>
   <a href="#services">Services</a>
+  <a href="#privatisation">Privatisation</a>
   <a href="#tarifs">Tarifs</a>
   <a href="#gallery">Galerie</a>
   <a href="#booking">Réserver</a>
@@ -422,16 +460,27 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
     <div class="about-text reveal">
       <span class="eyebrow">Notre histoire</span>
       <h2>Un institut pensé pour <span class="serif-italic">révéler</span> votre beauté</h2>
-      <p>Chez Lala Raji, chaque rendez-vous est pensé comme une parenthèse : écoute, précision et douceur. Notre équipe accompagne chaque cliente vers un résultat naturel et durable, dans un cadre chaleureux inspiré de l'artisanat marocain.</p>
-      <p>De l'épilation aux soins capillaires, en passant par les massages et l'extension de cils, nous mettons notre expertise au service de votre bien-être — à chaque visite.</p>
+      <p>Formée à l'Élysée Marbeuf et à l'École des Spas et Instituts, Aya Yasmine Ferradji a bâti au fil des années une expertise complète — coloriste, esthéticienne, masseuse, maquilleuse, ongleriste et prothésiste ciliaire. Une polyvalence rare, mise au service d'un institut pensé comme une parenthèse : écoute, précision et douceur, à chaque visite.</p>
+      <p>De l'épilation aux soins capillaires, en passant par les massages et l'extension de cils, chaque prestation est réalisée avec la même exigence, dans un cadre chaleureux inspiré de l'artisanat marocain.</p>
     </div>
     <div class="about-card reveal reveal-delay-1">
       <div class="about-photo"><img src="img5.jpg" alt="Lala Raji, institut by Yasmine"></div>
-      <h3>Yasmine</h3>
+      <h3>Aya Yasmine Ferradji</h3>
       <div class="role">Fondatrice &amp; Experte Beauté</div>
       <div class="divider"></div>
-      <div class="phone-label">Certification</div>
-      <p style="font-size:12.5px;color:#6b6355;font-weight:300;line-height:1.6;margin-bottom:16px;">Certifiée par l'Union Européenne — École des Spas et Instituts.</p>
+
+      <div class="phone-label">Formations</div>
+      <p style="font-size:12.5px;color:#6b6355;font-weight:300;line-height:1.7;margin-bottom:16px;">
+        Élysée Marbeuf<br>
+        École des Spas et Instituts — certifiée Union Européenne
+      </p>
+
+      <div class="phone-label">Spécialités</div>
+      <div class="service-tags" style="margin-bottom:18px;">
+        <span>Coloriste</span><span>Esthéticienne</span><span>Masseuse</span><span>Maquilleuse</span><span>Ongleriste</span><span>Prothésiste Ciliaire</span>
+      </div>
+
+      <div class="divider"></div>
       <div class="phone-label">Ligne directe</div>
       <a class="phone" href="tel:+213540837916">+213 540 83 79 16</a>
     </div>
@@ -493,6 +542,39 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- ============ CERTIFICATIONS ============ -->
+<section class="section certifs" id="certifications" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Formation &amp; expertise</span>
+      <h2>Nos <span class="serif-italic">Certifications</span></h2>
+      <p>Des formations reconnues, en France et en Algérie, garantes d'un savoir-faire rigoureux.</p>
+    </div>
+    <div class="certifs-grid reveal">
+      <div class="certif-item"><img src="certif1.jpg" loading="lazy" alt="Certificats et diplômes Lala Raji"></div>
+      <div class="certif-item"><img src="certif2.jpg" loading="lazy" alt="Attestations École des Spas et Instituts"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIVATISATION ============ -->
+<section class="privatise" id="privatisation">
+  <div class="container privatise-inner">
+    <span class="eyebrow">Moment exclusif</span>
+    <h2>Privatisation de <span>l'institut</span></h2>
+    <p>Profitez d'un moment beauté privé entre copines. Le vendredi, l'institut vous ouvre ses portes en exclusivité pour un groupe de 3 à 5 personnes.</p>
+    <div class="details">
+      <div class="detail"><b>Vendredi</b><span>Jour dédié</span></div>
+      <div class="detail"><b>3 à 5</b><span>Personnes</span></div>
+      <div class="detail"><b>Sur devis</b><span>Selon prestations</span></div>
+    </div>
+    <a href="https://wa.me/213540837916?text=Bonjour%20Lala%20Raji%2C%20je%20souhaite%20des%20informations%20pour%20privatiser%20l%27institut%20le%20vendredi." target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--gold-soft);color:var(--black);">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.42a9.87 9.87 0 004.62 1.18h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.33-1.93 1.4-.5.07-1.13.1-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.3.38-.44.51-.14.13-.29.28-.13.56.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.62-.05.17-.19.72-.84.91-1.13.19-.29.38-.24.63-.15.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.71-.17 1.39z"/></svg>
+      Demander un devis
+    </a>
   </div>
 </section>
 
@@ -627,7 +709,8 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
       <div class="booking-points">
         <div class="booking-point"><span class="dot"></span><div><b>Réponse rapide</b><span>Confirmation sous quelques heures via WhatsApp ou téléphone.</span></div></div>
         <div class="booking-point"><span class="dot"></span><div><b>Créneau exclusif</b><span>Une fois réservé, votre créneau est bloqué et ne peut être pris par personne d'autre.</span></div></div>
-        <div class="booking-point"><span class="dot"></span><div><b>Tous les jours, 09h – 17h</b><span>Réservation possible sur ce créneau horaire.</span></div></div>
+        <div class="booking-point"><span class="dot"></span><div><b>Du samedi au jeudi</b><span>Selon les horaires de l'institut — 09h à 17h.</span></div></div>
+        <div class="booking-point"><span class="dot"></span><div><b>Vendredi</b><span>Ouvert sur réservation pour les mariées uniquement.</span></div></div>
       </div>
     </div>
 
@@ -710,6 +793,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
             <label for="date">Date souhaitée *</label>
             <input type="date" id="date" name="date">
             <div class="field-error" id="dateError">Merci de choisir une date valide.</div>
+            <div id="fridayNotice" style="display:none;font-size:12px;color:var(--gold);margin-top:8px;">Le vendredi, l'institut est ouvert uniquement pour les mariées.</div>
           </div>
           <div class="field" id="field-time">
             <label for="time">Heure souhaitée *</label>
@@ -748,7 +832,8 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
     <div class="infobar-block reveal">
       <span class="eyebrow">Horaires</span>
       <h4>Nos jours &amp; heures</h4>
-      <div class="hours-row"><span>Tous les jours</span><b>09h – 17h</b></div>
+      <div class="hours-row"><span>Samedi → Jeudi</span><b>09h – 17h</b></div>
+      <div class="hours-row"><span>Vendredi</span><b>Sur réservation — mariées</b></div>
     </div>
     <div class="infobar-block reveal reveal-delay-1">
       <span class="eyebrow">Contact</span>
@@ -954,6 +1039,14 @@ function hideSlotTakenError(){
   slotTakenError.style.display = 'none';
 }
 dateInput.addEventListener('change', hideSlotTakenError);
+
+// Le vendredi est réservé aux mariées : on affiche une note informative (non bloquante)
+const fridayNotice = document.getElementById('fridayNotice');
+dateInput.addEventListener('change', () => {
+  if (!dateInput.value) { fridayNotice.style.display = 'none'; return; }
+  const d = new Date(dateInput.value + 'T00:00:00');
+  fridayNotice.style.display = (d.getDay() === 5) ? 'block' : 'none';
+});
 timeInput.addEventListener('change', hideSlotTakenError);
 
 // Vérifie en temps réel dans Firebase si le créneau (date + heure) est déjà réservé
