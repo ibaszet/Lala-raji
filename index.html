@@ -719,8 +719,10 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
           </div>
           <div class="field" id="field-time">
             <label for="time">Heure souhaitée *</label>
-            <input type="time" id="time" name="time" min="09:00" max="17:00">
-            <div class="field-error" id="timeError">Merci de choisir une heure entre 09:00 et 17:00.</div>
+            <select id="time" name="time">
+              <option value="">Choisissez une heure</option>
+            </select>
+            <div class="field-error" id="timeError">Merci de choisir une heure disponible.</div>
           </div>
         </div>
 
@@ -791,13 +793,10 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-/* ATTENTION : databaseURL non fournie — vérifiez-la dans la console Firebase
-   (Realtime Database > onglet Data, l'URL exacte est affichée en haut de la page)
-   et remplacez la ligne ci-dessous si nécessaire. */
 const firebaseConfig = {
   apiKey: "AIzaSyCO86bZxnV874cA3hn0rwHe7Ii1Qh_t7Cw",
   authDomain: "lala-raji.firebaseapp.com",
-  databaseURL: "https://lala-raji-default-rtdb.firebaseio.com",
+  databaseURL: "https://lala-raji-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "lala-raji",
   storageBucket: "lala-raji.firebasestorage.app",
   messagingSenderId: "934124120601",
@@ -933,6 +932,25 @@ function todayISO(){
   return d.toISOString().split('T')[0];
 }
 document.getElementById('date').min = todayISO();
+
+// Génère les créneaux disponibles toutes les 30 min entre l'ouverture et la fermeture
+function populateTimeSlots(){
+  const select = document.getElementById('time');
+  const [openH, openM] = OPEN_TIME.split(':').map(Number);
+  const [closeH, closeM] = CLOSE_TIME.split(':').map(Number);
+  let h = openH, m = openM;
+  while (h < closeH || (h === closeH && m <= closeM)) {
+    const hh = String(h).padStart(2, '0');
+    const mm = String(m).padStart(2, '0');
+    const opt = document.createElement('option');
+    opt.value = `${hh}:${mm}`;
+    opt.textContent = `${hh}:${mm}`;
+    select.appendChild(opt);
+    m += 30;
+    if (m >= 60) { m = 0; h += 1; }
+  }
+}
+populateTimeSlots();
 
 const slotTakenError = document.getElementById('slotTakenError');
 const dateInput = document.getElementById('date');
