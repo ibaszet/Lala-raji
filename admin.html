@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lala Raji — Espace Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF3EC;
+  --cream-deep:#FAD8BE;
+  --gold-line:#D3CAB8;
+  --gold:#A9865A;
+  --gold-soft:#C7A876;
+  --emerald:#005060;
+  --emerald-deep:#00343F;
+  --copper:#C4F450;
+  --black:#12201D;
+  --charcoal:#233330;
+  --white:#FFFFFF;
+  --line: rgba(18,32,29,.12);
+  --shadow: 0 16px 40px rgba(18,32,29,.10);
+  --red:#B3452F;
+  --amber:#B8860B;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--charcoal);-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--black);}
+button{font-family:'Inter',sans-serif;cursor:pointer;}
+a{color:inherit;}
+
+/* ============ LOGIN ============ */
+.login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:linear-gradient(160deg,var(--black) 0%,var(--emerald-deep) 100%);
+}
+.login-card{
+  background:var(--white);border-radius:6px;padding:44px 36px;max-width:380px;width:100%;
+  box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center;
+}
+.login-card .logo{font-style:italic;font-size:28px;margin-bottom:6px;}
+.login-card .logo span{color:var(--emerald);}
+.login-card .sub{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-bottom:30px;font-weight:600;}
+.login-card input{
+  width:100%;padding:14px 16px;border:1px solid var(--line);background:var(--cream);
+  font-size:15px;border-radius:2px;margin-bottom:14px;outline:none;transition:.2s;text-align:center;letter-spacing:.05em;
+}
+.login-card input:focus{border-color:var(--emerald);background:var(--white);}
+.login-card button{
+  width:100%;padding:14px;background:var(--black);color:var(--white);border:none;border-radius:2px;
+  font-size:13px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;transition:.3s;
+}
+.login-card button:hover{background:var(--emerald);}
+.login-error{color:var(--red);font-size:12.5px;margin-bottom:10px;display:none;}
+.login-error.show{display:block;}
+@keyframes shake{
+  10%,90%{transform:translateX(-1px);}
+  20%,80%{transform:translateX(2px);}
+  30%,50%,70%{transform:translateX(-4px);}
+  40%,60%{transform:translateX(4px);}
+}
+.shake{animation:shake .5s;}
+
+/* ============ APP LAYOUT ============ */
+.app{display:none;min-height:100vh;flex-direction:column;}
+.app.show{display:flex;}
+.topbar{
+  background:var(--black);color:var(--white);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topbar .brand{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;}
+.topbar .brand span{color:var(--gold-soft);}
+.topbar .actions{display:flex;align-items:center;gap:14px;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;box-shadow:0 0 0 3px rgba(76,175,80,.25);}
+.sync-dot.off{background:#888;box-shadow:none;}
+.logout-btn{background:none;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:8px 16px;border-radius:20px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;transition:.2s;}
+.logout-btn:hover{background:rgba(255,255,255,.12);}
+
+.tabs{display:flex;background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:60px;z-index:90;overflow-x:auto;}
+.tab-btn{
+  flex:1;min-width:120px;padding:16px 12px;text-align:center;background:none;border:none;
+  font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#8b8271;
+  border-bottom:2px solid transparent;transition:.2s;position:relative;
+}
+.tab-btn.active{color:var(--emerald);border-bottom-color:var(--emerald);}
+.tab-badge{
+  display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;
+  background:var(--red);color:#fff;font-size:10px;border-radius:10px;margin-left:6px;font-weight:700;
+}
+
+.main{flex:1;max-width:980px;width:100%;margin:0 auto;padding:28px 20px 60px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.section-title{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;margin:26px 0 14px;}
+.section-title:first-child{margin-top:0;}
+
+/* ============ BOOKING CARD ============ */
+.booking-card{
+  background:var(--white);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:14px;
+  box-shadow:var(--shadow);
+}
+.bc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.bc-name{font-family:'Playfair Display',serif;font-size:19px;font-style:italic;color:var(--black);}
+.bc-service{font-size:13px;color:var(--emerald);font-weight:600;margin-top:2px;}
+.bc-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:20px;}
+.badge-new{background:#E7F0F1;color:var(--emerald);}
+.badge-confirmed{background:#EAF6E9;color:#2E7D32;}
+.badge-done{background:#EDEDED;color:#555;}
+.badge-cancelled{background:#FBEAE6;color:var(--red);}
+.badge-source-web{background:var(--cream-deep);color:var(--gold);border:1px solid var(--gold-line);}
+.badge-source-manual{background:#EFEAF6;color:#5E4B9E;border:1px solid #D9CFEE;}
+
+.bc-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px 18px;font-size:13px;color:#5b5348;margin-bottom:12px;}
+.bc-meta b{color:var(--charcoal);font-weight:600;display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:#8b8271;margin-bottom:2px;}
+.bc-meta a{color:var(--emerald);font-weight:600;}
+.bc-note{font-size:13px;color:#6b6355;font-style:italic;background:var(--cream);padding:10px 12px;border-radius:4px;margin-bottom:14px;border-left:3px solid var(--gold-line);}
+
+.bc-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.act-btn{
+  border:1px solid var(--line);background:var(--white);padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  display:flex;align-items:center;gap:6px;transition:.2s;color:var(--charcoal);
+}
+.act-btn svg{width:14px;height:14px;}
+.act-btn:hover{background:var(--cream);}
+.act-confirm{border-color:#2E7D32;color:#2E7D32;}
+.act-confirm:hover{background:#EAF6E9;}
+.act-done{border-color:#555;color:#555;}
+.act-done:hover{background:#EDEDED;}
+.act-cancel{border-color:var(--red);color:var(--red);}
+.act-cancel:hover{background:#FBEAE6;}
+.act-call{border-color:var(--emerald);color:var(--emerald);}
+.act-call:hover{background:#E7F0F1;}
+.act-wa{border-color:#25D366;color:#128C4B;}
+.act-wa:hover{background:#E9F9EF;}
+.act-delete{border-color:var(--red);color:var(--red);margin-left:auto;}
+.act-delete:hover{background:var(--red);color:#fff;}
+
+.empty-state{text-align:center;padding:60px 20px;color:#8b8271;}
+.empty-state svg{width:44px;height:44px;margin-bottom:14px;color:var(--gold-line);}
+.empty-state p{font-size:14px;}
+
+/* ============ SEARCH & FILTER ============ */
+.filter-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.filter-bar input[type="text"]{
+  flex:1;min-width:200px;padding:12px 16px;border:1px solid var(--line);border-radius:20px;font-size:13.5px;
+  background:var(--white);outline:none;
+}
+.filter-bar input[type="text"]:focus{border-color:var(--emerald);}
+.filter-bar select{
+  padding:12px 16px;border:1px solid var(--line);border-radius:20px;font-size:13.5px;background:var(--white);outline:none;
+}
+
+/* ============ ADD FORM ============ */
+.add-form{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:26px 24px;box-shadow:var(--shadow);max-width:560px;}
+.add-form .field{margin-bottom:16px;}
+.add-form label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#8b8271;margin-bottom:7px;}
+.add-form input,.add-form select,.add-form textarea{
+  width:100%;padding:12px 14px;border:1px solid var(--line);background:var(--cream);border-radius:3px;
+  font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:.2s;
+}
+.add-form input:focus,.add-form select:focus,.add-form textarea:focus{border-color:var(--emerald);background:var(--white);}
+.add-form textarea{resize:vertical;min-height:70px;}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:520px){.form-row2{grid-template-columns:1fr;}}
+.add-submit{
+  width:100%;padding:14px;background:var(--emerald);color:#fff;border:none;border-radius:3px;
+  font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;transition:.2s;
+}
+.add-submit:hover{background:var(--black);}
+.add-success{display:none;background:#EAF6E9;color:#2E7D32;padding:12px 14px;border-radius:4px;font-size:13px;margin-bottom:16px;}
+.add-success.show{display:block;}
+
+.dash-counters{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:26px;}
+.counter-card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+.counter-num{font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:var(--emerald);}
+.counter-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8b8271;margin-top:4px;font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card" id="loginCard">
+    <div class="logo">Lala <span>Raji</span></div>
+    <div class="sub">Espace Admin</div>
+    <div class="login-error" id="loginError">Identifiants incorrects.</div>
+    <input type="email" id="emailInput" placeholder="Adresse e-mail" autocomplete="username">
+    <input type="password" id="passwordInput" placeholder="Mot de passe" autocomplete="current-password">
+    <button type="button" id="loginBtn">Se connecter</button>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand">Lala <span>Raji</span> — Admin</div>
+    <div class="actions">
+      <span class="sync-dot" id="syncDot" title="Synchronisation en direct"></span>
+      <button class="logout-btn" id="logoutBtn">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="dashboard">Tableau de bord</button>
+    <button class="tab-btn" data-tab="all">Toutes <span class="tab-badge" id="allCount">0</span></button>
+    <button class="tab-btn" data-tab="add">Ajouter</button>
+  </div>
+
+  <div class="main">
+
+    <!-- ============ DASHBOARD ============ -->
+    <div class="tab-panel active" id="panel-dashboard">
+      <div class="dash-counters">
+        <div class="counter-card"><div class="counter-num" id="countNew">0</div><div class="counter-label">Nouvelles</div></div>
+        <div class="counter-card"><div class="counter-num" id="countConfirmed">0</div><div class="counter-label">Confirmées</div></div>
+      </div>
+      <div class="section-title">Nouvelles réservations</div>
+      <div id="listNew"></div>
+      <div class="section-title">Réservations confirmées</div>
+      <div id="listConfirmed"></div>
+    </div>
+
+    <!-- ============ ALL ============ -->
+    <div class="tab-panel" id="panel-all">
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Rechercher par nom ou téléphone...">
+        <select id="statusFilter">
+          <option value="">Tous les statuts</option>
+          <option value="new">Nouvelle</option>
+          <option value="confirmed">Confirmée</option>
+          <option value="done">Terminée</option>
+          <option value="cancelled">Annulée</option>
+        </select>
+      </div>
+      <div id="listAll"></div>
+    </div>
+
+    <!-- ============ ADD ============ -->
+    <div class="tab-panel" id="panel-add">
+      <div class="add-success" id="addSuccess">Réservation ajoutée avec succès.</div>
+      <form class="add-form" id="addForm">
+        <div class="field">
+          <label for="add-name">Nom complet *</label>
+          <input type="text" id="add-name" required>
+        </div>
+        <div class="field">
+          <label for="add-phone">Téléphone *</label>
+          <input type="tel" id="add-phone" placeholder="05 40 83 79 16" required>
+        </div>
+        <div class="field">
+          <label for="add-service">Service *</label>
+          <select id="add-service" required>
+            <option value="">Choisissez un service</option>
+            <optgroup label="Esthétique & Épilation">
+              <option>Sourcils — 1 000 DZD</option>
+              <option>Visage — 2 000 DZD</option>
+              <option>Aisselles — 500 DZD</option>
+              <option>Avant Bras — 800 DZD</option>
+              <option>Bras Complet — 1 600 DZD</option>
+              <option>Demi Jambes — 1 000 DZD</option>
+              <option>Jambes Complètes — 2 000 DZD</option>
+              <option>Maillot Semi Intégral — à partir de 1 000 DZD</option>
+              <option>Maillot Intégral — à partir de 2 500 DZD</option>
+              <option>Ventre — 500 DZD</option>
+              <option>Dos — 1 000 DZD</option>
+              <option>Formule Aisselles / Maillot intégral / Jambes complètes — 5 000 DZD</option>
+            </optgroup>
+            <optgroup label="Coiffure">
+              <option>Shampoing L'Oréal — 200 DZD</option>
+              <option>Masque L'Oréal — 300 DZD</option>
+              <option>Brushing — à partir de 500 DZD</option>
+              <option>Coupe — 2 000 DZD</option>
+              <option>Brushing Travaillé — à partir de 1 500 DZD</option>
+              <option>Coloration — à partir de 3 500 DZD</option>
+              <option>Balayages — à partir de 12 000 DZD</option>
+              <option>Soins Capillaires — 15 000 DZD</option>
+            </optgroup>
+            <optgroup label="Massages">
+              <option>Massage Crânien + Cuir Chevelu (20 min) — 3 000 DZD</option>
+              <option>Massage Relaxant du Corps (1h) — 5 000 DZD</option>
+            </optgroup>
+            <optgroup label="Extension de Cils">
+              <option>Effet Mascara — 4 000 DZD</option>
+              <option>Effet Œil de Biche — 5 000 DZD</option>
+              <option>Effet Mixte — 6 500 DZD</option>
+              <option>Effet Russe — 7 000 DZD</option>
+              <option>Effet Russe Intense — 8 500 DZD</option>
+            </optgroup>
+            <optgroup label="Onglerie">
+              <option>Pose Capsule — 4 500 DZD</option>
+              <option>Pose Gel — 3 500 DZD</option>
+              <option>Vernis Semi-Permanent — 2 500 DZD</option>
+              <option>Manucure — 3 500 DZD</option>
+            </optgroup>
+            <optgroup label="Soins Complémentaires">
+              <option>Soin Visage — 5 000 DZD</option>
+              <option>Peeling Pied — 5 500 DZD</option>
+            </optgroup>
+            <optgroup label="Services Sur Devis">
+              <option>Maquillage — Sur devis</option>
+              <option>Coiffure Mariée — Sur devis</option>
+              <option>Extension Cheveux — Sur devis</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-row2">
+          <div class="field">
+            <label for="add-date">Date *</label>
+            <input type="date" id="add-date" required>
+          </div>
+          <div class="field">
+            <label for="add-time">Heure *</label>
+            <input type="time" id="add-time" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="add-note">Note (optionnel)</label>
+          <textarea id="add-note" placeholder="Précisions, allergies, demande particulière..."></textarea>
+        </div>
+        <button type="submit" class="add-submit">Ajouter la réservation</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ FIREBASE ============ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+/* ATTENTION : databaseURL non fournie — vérifiez-la dans la console Firebase
+   (Realtime Database > onglet Data, l'URL exacte est affichée en haut de la page)
+   et remplacez la ligne ci-dessous si nécessaire. Doit être identique à demo.html. */
+const firebaseConfig = {
+  apiKey: "AIzaSyCO86bZxnV874cA3hn0rwHe7Ii1Qh_t7Cw",
+  authDomain: "lala-raji.firebaseapp.com",
+  databaseURL: "https://lala-raji-default-rtdb.firebaseio.com",
+  projectId: "lala-raji",
+  storageBucket: "lala-raji.firebasestorage.app",
+  messagingSenderId: "934124120601",
+  appId: "1:934124120601:web:c1365e8fcfb36c42045888"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const auth = firebase.auth();
+const PROJECT_ROOT = "lala-raji";
+const WHATSAPP_NUMBER = "213540837916";
+
+/* ============ COMPTE ADMIN AUTORISÉ ============
+   Seul l'utilisateur Firebase Authentication (Email/Password) ayant cet UID
+   exact pourra accéder à l'espace admin. L'UID se trouve dans la console
+   Firebase > Authentication > Users. */
+const AUTHORIZED_UID = "sDHowQV17LQ68FjPGu15r8k5Z5B3";
+</script>
+
+<script>
+/* ============ LOGIN (Firebase Authentication — Email/Password) ============ */
+const loginScreen = document.getElementById('loginScreen');
+const loginCard = document.getElementById('loginCard');
+const loginError = document.getElementById('loginError');
+const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const app = document.getElementById('app');
+
+function showLoginError(message){
+  loginError.textContent = message;
+  loginError.classList.add('show');
+  loginCard.classList.remove('shake');
+  void loginCard.offsetWidth;
+  loginCard.classList.add('shake');
+  passwordInput.value = '';
+}
+
+async function tryLogin(){
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  if (!email || !password) {
+    showLoginError('Merci de renseigner e-mail et mot de passe.');
+    return;
+  }
+  loginBtn.disabled = true;
+  try {
+    const cred = await auth.signInWithEmailAndPassword(email, password);
+    if (cred.user.uid !== AUTHORIZED_UID) {
+      await auth.signOut();
+      showLoginError('Ce compte n\'est pas autorisé à accéder à l\'admin.');
+    }
+    // Si l'UID correspond, onAuthStateChanged (ci-dessous) gère l'affichage de l'app.
+  } catch (err) {
+    console.error(err);
+    showLoginError('E-mail ou mot de passe incorrect.');
+  } finally {
+    loginBtn.disabled = false;
+  }
+}
+loginBtn.addEventListener('click', tryLogin);
+passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryLogin(); });
+emailInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  auth.signOut();
+});
+
+auth.onAuthStateChanged((user) => {
+  if (user && user.uid === AUTHORIZED_UID) {
+    loginScreen.style.display = 'none';
+    app.classList.add('show');
+    initApp();
+  } else {
+    loginScreen.style.display = 'flex';
+    app.classList.remove('show');
+  }
+});
+
+/* ============ TABS ============ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============ APP STATE ============ */
+let bookingsCache = {};
+let appInitialized = false;
+
+function statusLabel(status){
+  return { new:'Nouvelle', confirmed:'Confirmée', done:'Terminée', cancelled:'Annulée' }[status] || 'Nouvelle';
+}
+function statusBadgeClass(status){
+  return { new:'badge-new', confirmed:'badge-confirmed', done:'badge-done', cancelled:'badge-cancelled' }[status] || 'badge-new';
+}
+function formatDate(ts){
+  if (!ts) return '—';
+  const d = new Date(ts);
+  return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+const ICONS = {
+  confirm: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9 12l2 2 4-4"/></svg>',
+  cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+  call: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.34 1.79.65 2.65a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.43-1.22a2 2 0 012.11-.45c.86.31 1.75.53 2.65.65A2 2 0 0122 16.92z"/></svg>',
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.42a9.87 9.87 0 004.62 1.18h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.33-1.93 1.4-.5.07-1.13.1-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.3.38-.44.51-.14.13-.29.28-.13.56.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.62-.05.17-.19.72-.84.91-1.13.19-.29.38-.24.63-.15.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.71-.17 1.39z"/></svg>',
+  delete: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>',
+  empty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>'
+};
+
+function renderCard(booking){
+  const id = booking.id;
+  const status = booking.status || 'new';
+  const source = booking.source === 'manual' ? 'manual' : 'website';
+  const phoneDigits = (booking.phone || '').replace(/[^0-9]/g, '');
+  const waPhone = phoneDigits.startsWith('0') ? '213' + phoneDigits.slice(1) : phoneDigits;
+  const waMsg = encodeURIComponent(`Bonjour ${booking.name || ''}, ceci est un message de Lala Raji concernant votre rendez-vous du ${booking.date || ''} à ${booking.time || ''} (${booking.service || ''}).`);
+
+  return `
+  <div class="booking-card" data-id="${id}">
+    <div class="bc-top">
+      <div>
+        <div class="bc-name">${escapeHtml(booking.name || 'Sans nom')}</div>
+        <div class="bc-service">${escapeHtml(booking.service || '')}</div>
+      </div>
+      <div class="bc-badges">
+        <span class="badge ${statusBadgeClass(status)}">${statusLabel(status)}</span>
+        <span class="badge ${source === 'manual' ? 'badge-source-manual' : 'badge-source-web'}">${source === 'manual' ? 'Manuel' : 'Web'}</span>
+      </div>
+    </div>
+    <div class="bc-meta">
+      <div><b>Téléphone</b><a href="tel:${escapeHtml(booking.phone || '')}">${escapeHtml(booking.phone || '—')}</a></div>
+      <div><b>RDV</b>${escapeHtml(booking.date || '—')} ${escapeHtml(booking.time || '')}</div>
+      <div><b>Reçu le</b>${formatDate(booking.createdAt)}</div>
+    </div>
+    ${booking.note ? `<div class="bc-note">${escapeHtml(booking.note)}</div>` : ''}
+    <div class="bc-actions">
+      ${status !== 'confirmed' ? `<button class="act-btn act-confirm" data-action="confirmed">${ICONS.confirm} Confirmer</button>` : ''}
+      ${status !== 'done' ? `<button class="act-btn act-done" data-action="done">${ICONS.done} Terminé</button>` : ''}
+      ${status !== 'cancelled' ? `<button class="act-btn act-cancel" data-action="cancelled">${ICONS.cancel} Annuler</button>` : ''}
+      <a class="act-btn act-call" href="tel:${escapeHtml(booking.phone || '')}">${ICONS.call} Appeler</a>
+      <a class="act-btn act-wa" href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank" rel="noopener">${ICONS.wa} WhatsApp</a>
+      <button class="act-btn act-delete" data-action="delete">${ICONS.delete} Supprimer</button>
+    </div>
+  </div>`;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function emptyState(msg){
+  return `<div class="empty-state">${ICONS.empty}<p>${msg}</p></div>`;
+}
+
+function renderAll(){
+  const bookings = Object.values(bookingsCache).sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+
+  // Dashboard
+  const newOnes = bookings.filter(b => (b.status || 'new') === 'new');
+  const confirmedOnes = bookings.filter(b => b.status === 'confirmed');
+  document.getElementById('countNew').textContent = newOnes.length;
+  document.getElementById('countConfirmed').textContent = confirmedOnes.length;
+  document.getElementById('listNew').innerHTML = newOnes.length ? newOnes.map(renderCard).join('') : emptyState('Aucune nouvelle réservation.');
+  document.getElementById('listConfirmed').innerHTML = confirmedOnes.length ? confirmedOnes.map(renderCard).join('') : emptyState('Aucune réservation confirmée.');
+
+  document.getElementById('allCount').textContent = bookings.length;
+
+  applyAllFilters(bookings);
+}
+
+function applyAllFilters(bookingsArg){
+  const bookings = bookingsArg || Object.values(bookingsCache).sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  const statusFilter = document.getElementById('statusFilter').value;
+
+  const filtered = bookings.filter(b => {
+    const matchesQuery = !q || (b.name||'').toLowerCase().includes(q) || (b.phone||'').toLowerCase().includes(q);
+    const matchesStatus = !statusFilter || (b.status || 'new') === statusFilter;
+    return matchesQuery && matchesStatus;
+  });
+
+  document.getElementById('listAll').innerHTML = filtered.length ? filtered.map(renderCard).join('') : emptyState('Aucune réservation ne correspond à votre recherche.');
+}
+
+document.getElementById('searchInput').addEventListener('input', () => applyAllFilters());
+document.getElementById('statusFilter').addEventListener('change', () => applyAllFilters());
+
+/* ============ ACTIONS (event delegation) ============ */
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.act-btn[data-action]');
+  if (!btn) return;
+  const card = btn.closest('.booking-card');
+  const id = card.dataset.id;
+  const action = btn.dataset.action;
+  const booking = bookingsCache[id];
+  if (!booking) return;
+
+  if (action === 'delete') {
+    if (!confirm(`Supprimer définitivement la réservation de ${booking.name} ?`)) return;
+    try {
+      if (booking.date && booking.time) {
+        await db.ref(`${PROJECT_ROOT}/takenSlots/${booking.date}_${booking.time}`).remove();
+      }
+      await db.ref(`${PROJECT_ROOT}/bookings/${id}`).remove();
+    } catch (err) {
+      alert('Erreur lors de la suppression.');
+      console.error(err);
+    }
+    return;
+  }
+
+  // confirmed / done / cancelled
+  try {
+    await db.ref(`${PROJECT_ROOT}/bookings/${id}/status`).set(action);
+    if (action === 'cancelled' && booking.date && booking.time) {
+      // Libère le créneau pour permettre une nouvelle réservation
+      await db.ref(`${PROJECT_ROOT}/takenSlots/${booking.date}_${booking.time}`).remove();
+    }
+  } catch (err) {
+    alert('Erreur lors de la mise à jour.');
+    console.error(err);
+  }
+});
+
+/* ============ ADD FORM ============ */
+const addForm = document.getElementById('addForm');
+const addSuccess = document.getElementById('addSuccess');
+
+addForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('add-name').value.trim();
+  const phone = document.getElementById('add-phone').value.trim();
+  const service = document.getElementById('add-service').value;
+  const date = document.getElementById('add-date').value;
+  const time = document.getElementById('add-time').value;
+  const note = document.getElementById('add-note').value.trim();
+
+  if (!name || !phone || !service || !date || !time) return;
+
+  try {
+    const bookingRef = db.ref(`${PROJECT_ROOT}/bookings`).push();
+    const bookingData = {
+      id: bookingRef.key,
+      name, phone, service, date, time,
+      appointment: `${date} ${time}`,
+      status: 'new',
+      source: 'manual',
+      note: note || null,
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    };
+    await bookingRef.set(bookingData);
+    await db.ref(`${PROJECT_ROOT}/takenSlots/${date}_${time}`).set(true);
+
+    addSuccess.classList.add('show');
+    addForm.reset();
+    setTimeout(() => addSuccess.classList.remove('show'), 3500);
+  } catch (err) {
+    alert('Erreur lors de l\'ajout de la réservation.');
+    console.error(err);
+  }
+});
+
+/* ============ REAL-TIME SYNC ============ */
+function initApp(){
+  if (appInitialized) return;
+  appInitialized = true;
+  const syncDot = document.getElementById('syncDot');
+
+  db.ref(`${PROJECT_ROOT}/bookings`).on('value', (snapshot) => {
+    bookingsCache = snapshot.val() || {};
+    syncDot.classList.remove('off');
+    renderAll();
+  }, (err) => {
+    console.error('Erreur de synchronisation Firebase:', err);
+    syncDot.classList.add('off');
+  });
+}
+</script>
+</body>
+</html>
