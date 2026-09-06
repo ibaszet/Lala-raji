@@ -316,6 +316,50 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
   font-size:13px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;cursor:pointer;
   transition:.35s ease;display:flex;align-items:center;justify-content:center;gap:10px;
 }
+
+/* ============ SERVICE MULTISELECT ============ */
+.multiselect{position:relative;}
+.multiselect-toggle{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border:1px solid var(--line);background:var(--cream);
+  font-family:'Inter',sans-serif;font-size:14.5px;color:var(--black);cursor:pointer;
+  transition:.25s;text-align:left;border-radius:1px;
+}
+.multiselect-toggle:hover{background:var(--white);}
+.multiselect-toggle svg{width:16px;height:16px;flex-shrink:0;color:#8b8271;transition:transform .25s;}
+.multiselect.open .multiselect-toggle svg{transform:rotate(180deg);}
+.multiselect.open .multiselect-toggle{border-color:var(--emerald);background:var(--white);}
+.multiselect-toggle .placeholder{color:#8b8271;}
+.multiselect-panel{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:50;
+  background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow);
+  max-height:320px;overflow-y:auto;padding:10px 0;
+}
+.multiselect.open .multiselect-panel{display:block;}
+.multiselect-group-title{
+  font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold);
+  padding:10px 16px 6px;
+}
+.multiselect-option{
+  display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;font-size:13.5px;
+  transition:.15s;
+}
+.multiselect-option:hover{background:var(--cream);}
+.multiselect-option input{width:16px;height:16px;accent-color:var(--emerald);flex-shrink:0;cursor:pointer;}
+.multiselect-option span{flex:1;}
+.selected-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.selected-chips:empty{margin-top:0;}
+.chip{
+  display:flex;align-items:center;gap:8px;background:var(--cream-deep);border:1px solid var(--gold-line);
+  border-radius:20px;padding:6px 8px 6px 14px;font-size:12px;color:var(--charcoal);font-weight:500;
+}
+.chip button{
+  background:none;border:none;cursor:pointer;color:var(--gold);width:18px;height:18px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;
+}
+.chip button:hover{background:rgba(169,134,90,.15);}
+.chip button svg{width:11px;height:11px;}
+
 .submit-btn:hover{background:var(--emerald);}
 .submit-btn:disabled{opacity:.7;cursor:not-allowed;}
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
@@ -733,61 +777,16 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;color:var(--black)
         </div>
 
         <div class="field" id="field-service">
-          <label for="service">Service souhaité *</label>
-          <select id="service" name="service">
-            <option value="">Choisissez un service</option>
-            <optgroup label="Esthétique & Épilation">
-              <option>Sourcils — 1 000 DZD</option>
-              <option>Visage — 2 000 DZD</option>
-              <option>Aisselles — 500 DZD</option>
-              <option>Avant-Bras — 800 DZD</option>
-              <option>Bras Complet — 1 600 DZD</option>
-              <option>Demi Jambes — 1 000 DZD</option>
-              <option>Jambes Complètes — 2 000 DZD</option>
-              <option>Maillot Semi-Intégral — à partir de 1 000 DZD</option>
-              <option>Maillot Intégral — à partir de 2 500 DZD</option>
-              <option>Ventre — 500 DZD</option>
-              <option>Dos — 1 000 DZD</option>
-              <option>Formule Aisselles / Maillot intégral / Jambes complètes — 5 000 DZD</option>
-            </optgroup>
-            <optgroup label="Coiffure">
-              <option>Shampoing L'Oréal — 200 DZD</option>
-              <option>Masque L'Oréal — 300 DZD</option>
-              <option>Brushing — à partir de 500 DZD</option>
-              <option>Coupe — 2 000 DZD</option>
-              <option>Brushing Travaillé — à partir de 1 500 DZD</option>
-              <option>Coloration — à partir de 3 500 DZD</option>
-              <option>Balayages — à partir de 12 000 DZD</option>
-              <option>Soins Capillaires — 15 000 DZD</option>
-            </optgroup>
-            <optgroup label="Massages">
-              <option>Massage Crânien + Cuir Chevelu (20 min) — 3 000 DZD</option>
-              <option>Massage Relaxant du Corps (1h) — 5 000 DZD</option>
-            </optgroup>
-            <optgroup label="Extension de Cils">
-              <option>Effet Mascara — 4 000 DZD</option>
-              <option>Effet Œil de Biche — 5 000 DZD</option>
-              <option>Effet Mixte — 6 500 DZD</option>
-              <option>Effet Russe — 7 000 DZD</option>
-              <option>Effet Russe Intense — 8 500 DZD</option>
-            </optgroup>
-            <optgroup label="Onglerie">
-              <option>Pose Capsule — 4 500 DZD</option>
-              <option>Pose Gel — 3 500 DZD</option>
-              <option>Vernis Semi-Permanent — 2 500 DZD</option>
-              <option>Manucure — 3 500 DZD</option>
-            </optgroup>
-            <optgroup label="Soins Complémentaires">
-              <option>Soin Visage — 5 000 DZD</option>
-              <option>Peeling des Pieds — 5 500 DZD</option>
-            </optgroup>
-            <optgroup label="Services Sur Devis">
-              <option>Maquillage — Sur devis</option>
-              <option>Coiffure Mariée — Sur devis</option>
-              <option>Extensions de Cheveux — Sur devis</option>
-            </optgroup>
-          </select>
-          <div class="field-error">Merci de choisir un service.</div>
+          <label>Service(s) souhaité(s) *</label>
+          <div class="multiselect" id="serviceMultiselect">
+            <button type="button" class="multiselect-toggle" id="serviceToggle">
+              <span id="serviceToggleText">Choisissez un ou plusieurs services</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="multiselect-panel" id="servicePanel"></div>
+          </div>
+          <div class="selected-chips" id="selectedChips"></div>
+          <div class="field-error">Merci de choisir au moins un service.</div>
         </div>
 
         <div class="form-row">
@@ -977,6 +976,109 @@ if (tarifSearch) {
   tarifSearch.addEventListener('input', filterTarifs);
 }
 
+/* ============ SERVICE MULTISELECT ============ */
+const SERVICE_GROUPS = [
+  { label: "Esthétique & Épilation", items: [
+    "Sourcils — 1 000 DZD", "Visage — 2 000 DZD", "Aisselles — 500 DZD", "Avant-Bras — 800 DZD",
+    "Bras Complet — 1 600 DZD", "Demi Jambes — 1 000 DZD", "Jambes Complètes — 2 000 DZD",
+    "Maillot Semi-Intégral — à partir de 1 000 DZD", "Maillot Intégral — à partir de 2 500 DZD",
+    "Ventre — 500 DZD", "Dos — 1 000 DZD", "Formule Aisselles / Maillot intégral / Jambes complètes — 5 000 DZD"
+  ]},
+  { label: "Coiffure", items: [
+    "Shampoing L'Oréal — 200 DZD", "Masque L'Oréal — 300 DZD", "Brushing — à partir de 500 DZD",
+    "Coupe — 2 000 DZD", "Brushing Travaillé — à partir de 1 500 DZD", "Coloration — à partir de 3 500 DZD",
+    "Balayages — à partir de 12 000 DZD", "Soins Capillaires — 15 000 DZD"
+  ]},
+  { label: "Massages", items: [
+    "Massage Crânien + Cuir Chevelu (20 min) — 3 000 DZD", "Massage Relaxant du Corps (1h) — 5 000 DZD"
+  ]},
+  { label: "Extension de Cils", items: [
+    "Effet Mascara — 4 000 DZD", "Effet Œil de Biche — 5 000 DZD", "Effet Mixte — 6 500 DZD",
+    "Effet Russe — 7 000 DZD", "Effet Russe Intense — 8 500 DZD"
+  ]},
+  { label: "Onglerie", items: [
+    "Pose Capsule — 4 500 DZD", "Pose Gel — 3 500 DZD", "Vernis Semi-Permanent — 2 500 DZD", "Manucure — 3 500 DZD"
+  ]},
+  { label: "Soins Complémentaires", items: [
+    "Soin Visage — 5 000 DZD", "Peeling des Pieds — 5 500 DZD"
+  ]},
+  { label: "Services Sur Devis", items: [
+    "Maquillage — Sur devis", "Coiffure Mariée — Sur devis", "Extensions de Cheveux — Sur devis"
+  ]}
+];
+
+let selectedServices = [];
+
+function buildServicePanel(){
+  const panel = document.getElementById('servicePanel');
+  panel.innerHTML = SERVICE_GROUPS.map(group => `
+    <div class="multiselect-group-title">${group.label}</div>
+    ${group.items.map(item => `
+      <label class="multiselect-option">
+        <input type="checkbox" value="${item.replace(/"/g, '&quot;')}">
+        <span>${item}</span>
+      </label>
+    `).join('')}
+  `).join('');
+
+  panel.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) {
+        if (!selectedServices.includes(cb.value)) selectedServices.push(cb.value);
+      } else {
+        selectedServices = selectedServices.filter(s => s !== cb.value);
+      }
+      renderServiceUI();
+    });
+  });
+}
+
+function renderServiceUI(){
+  const toggleText = document.getElementById('serviceToggleText');
+  const chipsWrap = document.getElementById('selectedChips');
+
+  if (selectedServices.length === 0) {
+    toggleText.textContent = 'Choisissez un ou plusieurs services';
+    toggleText.classList.add('placeholder');
+  } else {
+    toggleText.textContent = `${selectedServices.length} service${selectedServices.length > 1 ? 's' : ''} sélectionné${selectedServices.length > 1 ? 's' : ''}`;
+    toggleText.classList.remove('placeholder');
+  }
+
+  chipsWrap.innerHTML = selectedServices.map(s => `
+    <span class="chip">
+      ${s}
+      <button type="button" data-remove="${s.replace(/"/g, '&quot;')}" aria-label="Retirer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </span>
+  `).join('');
+
+  chipsWrap.querySelectorAll('button[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.remove;
+      selectedServices = selectedServices.filter(s => s !== val);
+      const cb = document.querySelector(`#servicePanel input[value="${val.replace(/"/g, '\\"')}"]`);
+      if (cb) cb.checked = false;
+      renderServiceUI();
+    });
+  });
+}
+
+buildServicePanel();
+renderServiceUI();
+
+const serviceMultiselect = document.getElementById('serviceMultiselect');
+document.getElementById('serviceToggle').addEventListener('click', (e) => {
+  e.stopPropagation();
+  serviceMultiselect.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (!serviceMultiselect.contains(e.target)) {
+    serviceMultiselect.classList.remove('open');
+  }
+});
+
 /* ============ BOOKING FORM ============ */
 const form = document.getElementById('bookingForm');
 const submitBtn = document.getElementById('submitBtn');
@@ -1066,7 +1168,7 @@ form.addEventListener('submit', async function(e){
 
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const service = document.getElementById('service').value;
+  const services = selectedServices.slice();
   const date = document.getElementById('date').value;
   const time = document.getElementById('time').value;
 
@@ -1079,7 +1181,7 @@ form.addEventListener('submit', async function(e){
 
   if (name.length < 3) { setError('field-name', true); valid = false; }
   if (!validatePhone(phone)) { setError('field-phone', true); valid = false; }
-  if (!service) { setError('field-service', true); valid = false; }
+  if (services.length === 0) { setError('field-service', true); valid = false; }
   if (!date) { setError('field-date', true); valid = false; }
   if (!time || !isWithinHours(time)) { setError('field-time', true); valid = false; }
 
@@ -1107,7 +1209,7 @@ form.addEventListener('submit', async function(e){
       id: bookingRef.key,
       name: name,
       phone: phone,
-      service: service,
+      services: services,
       date: date,
       time: time,
       appointment: `${date} ${time}`,
@@ -1119,7 +1221,8 @@ form.addEventListener('submit', async function(e){
     await bookingRef.set(bookingData);
     await db.ref(`${PROJECT_ROOT}/takenSlots/${date}_${time}`).set(true);
 
-    const waMessage = `Bonjour Lala Raji, je viens de réserver mon rendez-vous sur le site :%0A%0ANom : ${name}%0AService : ${service}%0ADate : ${date}%0AHeure : ${time}`;
+    const servicesText = services.join(', ');
+    const waMessage = `Bonjour Lala Raji, je viens de réserver mon rendez-vous sur le site :%0A%0ANom : ${name}%0AServices : ${servicesText}%0ADate : ${date}%0AHeure : ${time}`;
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
     waConfirmLink.href = waLink;
 
@@ -1145,6 +1248,9 @@ newBookingBtn.addEventListener('click', () => {
   form.reset();
   form.classList.remove('hidden');
   formSuccess.classList.remove('show');
+  selectedServices = [];
+  document.querySelectorAll('#servicePanel input[type="checkbox"]').forEach(cb => cb.checked = false);
+  renderServiceUI();
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
